@@ -6,7 +6,7 @@ weight: 1
 ---
 ### Containers
 
-The container isolate a **process** using **namespaces** and **control groups (cgroups)** in Linux, which are features of the Linux kernel. 
+The container isolate a **process** using **namespaces** and **control groups (cgroups)** in Linux, which are features of the Linux kernel.
 
 - Namespaces provide a layer of isolation: each aspect of a container runs in its own namespace and does not have access outside of it. 
 - Control groups limit and distribute the hardware resources like CPU and memory to the containers.
@@ -117,7 +117,7 @@ The installation steps are as follows:
 
 1- Navigate to this site : https://learn.microsoft.com/en-us/windows/wsl/install and follow the instructions for installing **WSL2** on Windows 10.
 
-2- Then navigate to the official download page https://www.docker.com/products/docker-desktop/ and click the Download for Windows (stable) button 
+2- Then navigate to the official download page https://www.docker.com/products/docker-desktop/ and click the Download for Windows (stable) button.
 
 3- Double-click the downloaded installer and go through the installation with the defaults.
 
