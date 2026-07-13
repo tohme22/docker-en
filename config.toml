@@ -1,0 +1,14 @@
+baseURL = "hhttps://coursinfo.ca/docker-en/"
+languageCode = "en-ca"
+DefaultContentLanguage = "en"
+theme = "hugo-theme-learn"
+[params]
+themeVariant = "blue"
+titleSeparator = ""
+disableLandingPageButton = true
+landingPageURL = "https://coursinfo.ca/docker-en/"
+landingPageName = "<i class='fas fa-home'></i> Welcome"
+disableSearch = true
+disableInlineCopyToClipBoard = true
+editURL = ""
+author = "Antoine Tohmé"
