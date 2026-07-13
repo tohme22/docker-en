@@ -1,7 +1,7 @@
 ---
 title: "Exercice"
 description: "$ docker"
-draft: true
+draft: false
 weight: 3
 ---
 ### Exercise - Creating and Linking Two Containers with Docker Compose
