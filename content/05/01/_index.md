@@ -1,7 +1,7 @@
 ---
 title: "Exercice"
 description: "$ docker"
-draft: true
+draft: false
 weight: 2
 ---
 ### Exercice - Adding environment variables to a container
