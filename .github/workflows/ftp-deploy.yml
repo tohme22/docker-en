@@ -35,4 +35,4 @@ jobs:
         port: ${{ secrets.FTP_PORT }}
         protocol: ftp
         local-dir: ./public/
-        server-dir: /docker-en/
+        server-dir: /
