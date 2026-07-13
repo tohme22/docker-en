@@ -1,7 +1,7 @@
 ---
 title: "Solution"
 description: "$ docker"
-draft: true
+draft: false
 weight: 3
 ---
 ### Solution
