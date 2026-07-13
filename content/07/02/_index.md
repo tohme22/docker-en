@@ -1,7 +1,7 @@
 ---
 title: "Exercise "
 description: "$ docker"
-draft: true
+draft: false
 weight: 3
 ---
 ### Exercise  - Creating an image from a Dockerfile
