@@ -1,7 +1,7 @@
 ---
 title: "Exercises"
 description: "$ docker"
-draft: true
+draft: false
 weight: 3
 ---
 ### Exercise 1 - Exploring the Host and Bridge networks in Docker
