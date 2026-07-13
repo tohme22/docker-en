@@ -1,7 +1,7 @@
 ---
 title: "Demo 2"
 description: "$ docker"
-draft: true
+draft: false
 weight: 2
 ---
 ### Demo 2
