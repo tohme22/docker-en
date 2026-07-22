@@ -60,7 +60,7 @@ docker run -p 8888:8888 --network monreseau jupyter/scipy-notebook
 
    6.1 On the Jupyter website, open a **Python3 Notebook.thon3**.
    
-   6.2 Install the `**psycopg2-binary**` package to run queries from the web server to the database:
+   6.2 Install the **`psycopg2-binary`** package to run queries from the web server to the database:
        
 	**!pip install psycopg2-binary**   
    
