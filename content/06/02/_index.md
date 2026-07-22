@@ -48,7 +48,7 @@ postgres=# \q
 4. Create the container for **Jupyter (Web Server):** :
 
 ```yaml
-docker run -p 8888:8888 --network monreseau jupyter/scipy-notebook
+docker run -p 8888:8888 --network mynetwork jupyter/scipy-notebook
 ```
 
 5.Open a browser and access the Jupyter server website::
