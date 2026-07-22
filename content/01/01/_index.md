@@ -1,3 +1,12 @@
+---
+title: "Demo"
+description: "docker"
+draft: false
+weight: 2
+---
+### Commands used
+
+```yaml
 # Download the Ubuntu image from Docker Hub
 $ docker pull ubuntu
 
@@ -40,3 +49,4 @@ $ docker stop ghost1
 
 # Delete the Ghost container named ghost1
 $ docker rm ghost1
+```
