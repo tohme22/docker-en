@@ -4,7 +4,7 @@ description: "docker"
 draft: false
 weight: 2
 ---
-### Used comamnds 
+### Commands used
 
 #### Bridge (by default)
 ```yaml
