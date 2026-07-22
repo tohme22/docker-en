@@ -4,123 +4,123 @@ description: "docker"
 draft: false
 weight: 2
 ---
-### UCommandes utilisées
+### Comamnds used
 
 ```yaml
-# Lister toutes les images Docker disponibles localement
+# List all Docker images available locally
 $ docker image ls
 
-# Télécharger l’image Ubuntu depuis Docker Hub
+# Download the Ubuntu image from Docker Hub
 $ docker pull ubuntu
 
-# Créer et exécuter un conteneur basé sur Ubuntu pour exécuter la commande 'ls'
+# Create and run an Ubuntu-based container to execute the 'ls' command
 $ docker run ubuntu ls
 
-# Supprimer un conteneur (remplacer <container_name> par le nom du conteneur)
+# Delete a container (replace <container_name> with the container's name)
 $ docker rm <container_name>
 
-# Créer et exécuter un conteneur interactif nommé 'ubuntu_container' basé sur Ubuntu
+# Create and run an interactive container named 'ubuntu_container' based on Ubuntu
 $ docker run -it --name ubuntu_container ubuntu
 
-Depuis un autre terminal :
+From another terminal:
 ---------------------------
-# Afficher en temps réel les statistiques d’utilisation (CPU, mémoire, etc.) des conteneurs
+# Display real-time resource usage statistics (CPU, memory, etc.) for containers
 $ docker stats 
 
-Revenir au premier terminal :
+Return to the first terminal:
 ------------------------------
-# Quitter le shell du conteneur
+# Exit the container's shell
 root@9dad023013d9:/# exit
 
-# Renommer le conteneur ubuntu_container en ubuntu_cont
+# Rename the container ubuntu_container to ubuntu_cont
 $ docker rename ubuntu_container ubuntu_cont
 
-# Lister tous les conteneurs (actifs et arrêtés)
+# List all containers (active and stopped)
 $ docker ps -a
 ```
 
 ```yaml
-# Lancer un conteneur interactif basé sur l’image Node.js
+# Run an interactive container based on the Node.js image
 $ docker run -it node 
 
-# Effectuer une addition dans le REPL Node.js
+# Perform an addition in the Node.js REPL
 > 1 + 1
 2
-# Quitter le REPL Node.js
+# Exit the Node.js REPL
 > .exit
 
-# Lancer un conteneur interactif basé sur l’image Python
+# Run an interactive container based on the Python image
 $ docker run -it python 
 
-# Effectuer une addition dans l’interpréteur Python
+# Perform an addition in the Python interpreter
 >>> 1 + 1
 2
-# Quitter l’interpréteur Python
+# Exit the Python interpreter
 >>> exit()
 
-# Lister tous les conteneurs (actifs et arrêtés)
+# List all containers (active and stopped)
 $ docker ps -a
 
-# Démarrer un conteneur (remplacer <container_name> par le nom du conteneur)
+# Start a container (replace <container_name> with the container's name)
 $ docker start <container_name>
 
-# Démarrer un conteneur en mode interactif
+# Start a container in interactive mode
 $ docker start -i <container_name>
 
-# Arrêter un conteneur en cours d’exécution
+# Stop a running container
 $ docker stop <container_name>
 
-# Forcer l’arrêt immédiat d’un conteneur (kill)
+# Forcefully stop a container immediately (kill)
 $ docker kill <container_name>
 
-# Afficher en temps réel les statistiques d’utilisation (CPU, mémoire, etc.)
+# Display real-time usage statistics (CPU, memory, etc.)
 $ docker stats 
 
-# Afficher les logs d’un conteneur
+# Display logs of a container
 $ docker logs <container_name>
 
-# Afficher toutes les informations détaillées d’un conteneur en format JSON
+# Display detailed information about a container in JSON format
 $ docker inspect <container_name>
 
-# Lancer un conteneur Redis en arrière-plan
+# Run a Redis container in the background
 $ docker run -d redis
 
-# Ouvrir une session redis-cli dans un conteneur existant (remplacer <container_name>)
+# Open a redis-cli session inside an existing container (replace <container_name>)
 $ docker exec -it <container_name> redis-cli 
 
-# Quitter l’invite redis-cli
+# Exit the redis-cli prompt
 127.0.0.1:6379> exit
 
-# Lister tous les conteneurs
+# List all containers
 $ docker ps -a
 
-# Arrêter un conteneur
+# Stop a container
 $ docker stop <container_name>
 ```
 
 ```yaml
-# Lancer un conteneur Jupyter TensorFlow Notebook et mapper le port 12345 vers 8888
+# Run a Jupyter TensorFlow Notebook container and map port 12345 to 8888
 $ docker run --rm -p 12345:8888 jupyter/tensorflow-notebook
 
-Ouvrir un navigateur Internet :
+Open a web browser:
 -------------------------------
-# Accéder à Jupyter Notebook dans le navigateur
+# Access Jupyter Notebook in the browser
 http://127.0.0.1:12345
-# Copier le token affiché dans le terminal Docker et le coller dans le navigateur
+# Copy the token displayed in the Docker terminal and paste it into the browser
 ```
 ```yaml
-# Arrêter tous les conteneurs en cours et arrêtés
+# Stop all running and stopped containers
 $ docker stop $(docker ps -a -q)
 
-# Supprimer tous les conteneurs
+# Delete all containers
 $ docker rm $(docker ps -a -q)
 
-# Supprimer toutes les images Docker
+# Delete all Docker images
 $ docker rmi $(docker images -a -q)
 
-# Supprimer uniquement les images non utilisées par aucun conteneur
+# Delete only images not used by any container
 $ docker image prune -a
 
-# Nettoyer toutes les ressources Docker inutilisées pour libérer de l’espace disque
+# Clean up all unused Docker resources to free up disk space
 $ docker system prune
 ```
