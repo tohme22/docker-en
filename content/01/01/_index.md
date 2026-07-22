@@ -1,52 +1,42 @@
----
-title: "Demo"
-description: "$ docker"
-draft: false
-weight: 2
----
-### Comamndes utilisées
-
-```yaml
-# Télécharger l’image Ubuntu depuis Docker Hub
+# Download the Ubuntu image from Docker Hub
 $ docker pull ubuntu
 
-# Lister toutes les images Docker disponibles localement
+# List all Docker images available locally
 $ docker image ls
 
-# Créer et exécuter un conteneur Ubuntu en mode interactif
+# Create and run an Ubuntu container in interactive mode
 $ docker run -it ubuntu
-# Lister les fichiers dans le conteneur (dans le shell root du conteneur)
+
+# List files inside the container (inside the container's root shell)
 root$ ls
 
-Ouvrez un autre terminal Shell :
+Open another Shell terminal:
 --------------------------------
-# Lister tous les conteneurs (actifs et arrêtés)
+# List all containers (active and stopped)
 $ docker ps -a        
 
-# Arrêter un conteneur en cours d’exécution (remplacer container_name par le nom du conteneur)
+# Stop a running container (replace container_name with the container's name)
 $ docker stop container_name
 
-# Supprimer un conteneur (remplacer container_name par le nom du conteneur)
+# Delete a container (replace container_name with the container's name)
 $ docker rm container_name
 
-# Télécharger l’image Ghost depuis Docker Hub
+# Download the Ghost image from Docker Hub
 $ docker pull ghost   
 
-# Lancer un conteneur Ghost en arrière-plan avec des variables d’environnement et mappage de port
+# Launch a Ghost container in the background with environment variables and port mapping
 $ docker run -d --name ghost1 -e NODE_ENV=development -e url=http://localhost:3001 -p 3001:2368 ghost
 
-Ouvrez un navigateur Internet :
+Open a web browser:
 -------------------------------
-# Accéder à l’application Ghost via le navigateur
+# Access the Ghost application via the browser
 http://localhost:3001/
 
-# Lister tous les conteneurs (actifs et arrêtés)
+# List all containers (active and stopped)
 $ docker ps -a  
 
-# Arrêter le conteneur Ghost nommé ghost1
+# Stop the Ghost container named ghost1
 $ docker stop ghost1
 
-# Supprimer le conteneur Ghost nommé ghost1
+# Delete the Ghost container named ghost1
 $ docker rm ghost1
-```
-
