@@ -1,5 +1,5 @@
 ---
-title: "Demo 2"
+title: "Example"
 description: "$ docker"
 draft: false
 weight: 2
