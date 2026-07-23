@@ -4,9 +4,7 @@ description: "$ docker"
 draft: false
 weight: 2
 ---
-### Demo 2
-
-- Create a network between a **Database** container and a **Web Server** container
+#### Create a network between a **Database** container and a **Web Server** container
 
 ##### **Steps:**
 1- Create a network named **`mynetwork`**.
