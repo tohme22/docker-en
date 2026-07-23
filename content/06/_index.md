@@ -69,7 +69,7 @@ $ docker network inspect bridge
 ...
 ```
 
-### Usage Example: Default Bridge Network
+### Example: Default Bridge Network
 
 ```yaml
 # Create and start a container in the foreground on the default bridge network
@@ -147,12 +147,13 @@ search localdomain
 / # ip route
 default via 172.17.0.1 dev eth0 
 172.17.0.0/16 dev eth0 scope link  src 172.17.0.2
-/ # exit
 
 # Test DNS resolution and external internet connectivity
 / # ping -c 3 www.google.com
 PING www.google.com (142.250.69.68): 56 data bytes
 64 bytes from 142.250.69.68: seq=0 ttl=127 time=8.448 ms
+...
+/ # exit
 
 # Stop and remove containers (automatically removed if --rm was passed)
 $ docker stop demo1 demo2 demo3
