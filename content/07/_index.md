@@ -4,73 +4,77 @@ description: "docker"
 draft: false
 weight: 7
 ---
-## What's a docker image?
+## What is a Docker Image?
 
-An image is an executable package that includes everything needed to run an application: The code, a runtime, libraries, environment, variables, and configuration file.
+An image is an executable package that includes everything needed to run an application: the code, a runtime environment, libraries, environment variables, and configuration files.
 
 > A container is a runtime instance of an image.
 
-![](../images/images-bigpic.jpg)
+![Docker Overview](../images/images-bigpic.jpg)
 
-### Understanding Layering with Docker Images
+---
 
-- **Multiple containers** are typically based on the **same image.**
-- Images are made up of **multiple read-only layers**. 
-- When a container starts, **Docker adds a new writable layer on top of the image**.
-- This writable **layer is removed when the container is deleted.**
-- Layers are **shared across containers** to save disk space.
-- Each container starts as if it has a fresh copy of the image, **but without actually copying it.**
+### Understanding the Concept of Layers with Docker Images
 
-#### Why no copies?
+- **Multiple containers** are generally based on the **same image.**
+- Images consist of **multiple read-only layers.** 
+- When a container starts, **Docker adds a new writable layer on top of the image.**
+- This **writable layer is deleted when the container is deleted.**
+- Layers are **shared among containers** to save disk space.
+- Each container starts as if it has a fresh copy of the image, **without actually copying it.**
 
-- Container images **can be pretty big**, like Anaconda Python distribution image which is about 1.5G.
-- Making a copy would be both a **waste of disk space and pretty slow.**
-- So Docker doesn’t make copies, instead it uses **layering technique called `Overlay filesystem`**.
+#### Why No Copies?
 
-#### How Overlay filesystem (OverlayerFS) work?
+- Container images **can be very large**, such as the Anaconda Python image which is around 1.5 GB.
+- Making a copy would be both **a waste of disk space and very slow.**
+- Docker therefore does not make copies; instead, it uses a **layering technique called `Overlay filesystem`.**
 
-**`OverlayFS`** mount a filesystem using two directories: a **`lower directory`** and an **`upper directory`**.
+#### How Does the Overlay File System (OverlayFS) Work?
 
-- **`lower directory`** for the image **read-only**.
-- **`upper directory`** for the container layer **read/write**.
-- You see them merged together as if it’s one folder called **merged**.
+**`OverlayFS`** mounts a file system using two directories: a **`lower directory`** and an **`upper directory`**.
 
-The following diagram shows how a Docker image and a Docker container are layered. 
+- **`lower directory`** for the **read-only** image.
+- **`upper directory`** for the container's **read/write** layer.
+- They are presented merged together as a single directory called **merged**.
 
-![](../images/overlay.png)
+The following diagram illustrates how a Docker image and a Docker container are structured in layers:
 
-- `file1` and `file3` are unmodified, so they remain in lowerdir.
-- `file2` was modified (copy-up from lowerdir).
-- `file4` exist in upperdir because is created directly in the container.
+![OverlayFS Diagram](../images/overlay.png)
 
-### The storage location of Docker images and containers <a id="the-storage-location-of-docker-images-and-containers"></a>
+- `file1` and `file3` are unmodified, so they remain in `lowerdir`.
+- `file2` has been modified (copied up from `lowerdir`).
+- `file4` exists in `upperdir` because it was created directly inside the container.
 
-A Docker container consists of network settings, volumes, and images. The location of Docker files depends on your operating system. Here is an overview for the most used operating systems:
+---
 
-* Ubuntu: `/var/lib/docker/`
-* Fedora: `/var/lib/docker/`
-* Debian: `/var/lib/docker/`
+### Storage Location of Docker Images and Containers
+
+A Docker container consists of network settings, volumes, and images. The storage location of Docker files depends on your operating system:
+
+* Linux: `/var/lib/docker/`
 * Windows: `C:\ProgramData\DockerDesktop`
 * MacOS: `~/Library/Containers/com.docker.docker/Data/vms/0/`
 
-use `docker info | grep -i root` command to findout:
+Use the `docker info | grep Root` command to locate it on your host system:
 
 ```console
 [root@earth]# docker info | grep Root
 Docker Root Dir: /var/lib/docker
 ```
 
-### Searching for an image
+---
 
-Whether you are using a public or a private registry you can search that registry to find the image that you need. And that is what `docker search` command does for us:
+### Searching for an Image
+
+Whether using a public or private registry, you can search for the image you need using the `docker search` command:
 
 ```yaml
 docker search [OPTIONS] TERM
 ```
 
-`docker search` has a very useful filtering options, you can filter output based on these conditions:
+`docker search` offers useful filtering options. You can filter results using conditions such as:
 
-* **stars=<NumberOfStar>**
+* **stars=_Number_of_stars_**
 * **is-automated=\(true\|false\)**
 * **is-official=\(true\|false\)**
 
@@ -81,13 +85,15 @@ ubuntu              Ubuntu is a Debian-based Linux operating sys…   11152     
 ubuntu-upstart      Upstart is an event-based replacement for th…   110                 [OK]
 ```
 
-### Listing images
+---
 
-For listing local images, use the following syntax:
+### Listing Local Images
+
+To list locally available images, use the following command:
 
 ```console
 [root@earth]# docker image ls
-REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 <none>              <none>              fc32da11d651        About a minute ago   233MB
 redis               latest              50541622f4f1        4 days ago           104MB
 ubuntu              latest              adafef2e596e        2 weeks ago          73.9MB
@@ -95,271 +101,250 @@ nginx               latest              9beeba249f3e        2 months ago        
 hello-world         latest              bf756fb1ae65        6 months ago         13.3kB
 ```
 
-The image we have recently built is showing up in the first line. We haven't tagged out image during build process ,we will talk about tagging images later in this section.
+The image we recently built appears on the first line. It was not tagged during the build process; image tagging is covered in detail below.
 
-### Pulling an image from default registry
+---
 
-To download a particular image, or set of images, use `docker pull :`
+### Downloading an Image from the Default Registry
+
+To download a specific image or set of image layers, use `docker pull`:
 
 ```yaml
 docker pull <image name>
 ```
 
 ```console
-[root@earth]# docker pull debian
+[root@earth]# docker pull python
 Using default tag: latest
-latest: Pulling from library/debian
-31dd5ebca5ef: Pull complete 
-Digest: sha256:68f4e2259032a4e6f5035804e64438b52af8dd5889528b305b9059183ea4cd2a
-Status: Downloaded newer image for debian:latest
+latest: Pulling from library/python
+15b1d8a5ff03: Already exists 
+22718812f617: Pull complete 
+401a98f7495b: Pull complete 
+ad446e7df19a: Pull complete 
+5d32990caa16: Pull complete 
+a79d633abf9a: Pull complete 
+249a56c8e466: Pull complete 
+Digest: sha256:2deb0891ec3f643b1d342f04cc22154e6b6a76b41044791b537093fae00b6884
+Status: Downloaded newer image for python:latest
+docker.io/library/python:latest
 ```
 
-As we mentioned Docker images can consist of multiple layers. In the example above, the image consists of two layers;
+> **Note:** As mentioned, Docker images can consist of multiple layers. In the example above, the Python image **contains six layers.**
 
-### Remove one or more specific images
+---
 
-Use the `docker images` command to locate the ID of the images you want to remove. When you’ve located the images you want to delete, you can pass their ID or tag to `docker rmi`:
+### Removing One or More Specific Images
+
+Use `docker images` or `docker image ls` to locate the IDs or tags of the images you wish to delete, then run `docker rmi`:
 
 ```yaml
 docker rmi <image1> <image2>
 ```
 
 ```console
-[root@earth]# docker rmi debian
-Untagged: debian:latest
-Untagged: debian@sha256:68f4e2259032a4e6f5035804e64438b52af8dd5889528b305b9059183ea4cd2a
-Deleted: sha256:ae8514941ea4f23d4948150debf0f92a427c136aa4e7fb85f9c56bba09452572
-Deleted: sha256:6086e1b289d997dfd19df1ec9366541c49f5545520f9dc65ebd4cd64071497b4
+[root@earth]# docker rmi ubuntu
+Untagged: ubuntu:latest
+Untagged: ubuntu@sha256:9cbed754112939e914291337b5e554b07ad7c392491dba6daf25eef1332a22e8
+Deleted: sha256:802541663949fbd5bbd8f35045af10005f51885164e798e2ee8d1dc39ed8888d
+Deleted: sha256:9d592720ced4a7a4ddf16adef8a126e4c8c49f22114de769343320b37674321e
 ```
 
-> You can not remove an image which is used by a stop container, you can use `--force` for removing that but the stopped container\(s\) will be removed too!
+> You cannot remove an image being referenced by a stopped container unless you use the **`-f`** (force) flag.
 
 ```console
-[root@earth]# docker ps -a | grep "hello-world"
-c41d97e86738        hello-world         "/hello"                 4 days ago          Exited (0) 4 days ago                         flamboyant_allen
+[root@earth]# docker rmi python:latest 
+Error response from daemon: conflict: unable to remove repository reference "python:latest" (must force) - container 88347b61e797 is using its referenced image 77f2b24be2b3
 
-[root@earth]# docker rmi --force  hello-world
-Untagged: hello-world:latest
-Untagged: hello-world@sha256:49a1c8800c94df04e9658809b006fd8a686cab8028d33cfba2cc049724254202
-Deleted: sha256:bf756fb1ae65adf866bd8c456593cd24beb6a0a061dedf42b26a993176745f6b
+[root@earth]# docker ps -a
+CONTAINER ID    IMAGE           COMMAND     CREATED         STATUS                    PORTS     NAMES
+88347b61e797    python:latest   "python3"   56 seconds ago  Exited (0)55 seconds ago            python1
 
-[root@earth]# docker ps -a | grep "hello-world"
+[root@earth]# docker rmi -f python:latest
+Untagged: python:latest
+Untagged: python@sha256:2deb0891ec3f643b1d342f04cc22154e6b6a76b41044791b537093fae00b6884
+Deleted: sha256:77f2b24be2b3987f6d59918787d226acb4e6612644bacb3dd37adc494e477d9e
 ```
 
-### Tagging images
+---
 
-- In simple words, Docker tags adds useful information about a specific image version/variant. 
-- They are aliases to the ID of your image which often look like this: `f1477ec11d12`. 
-- It’s just a way of referring to your image. 
+### Tagging Images
 
-The two most common cases where tags come into play are:
+- In simple terms, Docker tags add useful versioning or variant information to an image.
+- They act as **`aliases`** pointing to an image ID.
 
-1. When building an image, we use the following command:
+The two most common use cases for tagging are:
+
+1. **During Image Build:**
 
 ```yaml
 docker build -t image_name:tag_name .
 ```
 
-It tells the Docker daemon to fetch the Docker file present in the current directory (that’s what the `.` at the end does). Next, we tell the Docker daemon to build the image and give it the specified tag.
+This instructs the Docker daemon to read the Dockerfile in the current working directory (`.`) and tag the resulting image with the specified name and tag.
 
-2. Explicitly tagging an image through the `tag` command:
+2. **Using the `docker tag` Command:**
 
 ```yaml
 docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
 ```
 
-It just creates an alias (a reference) by the name of the `TARGET_IMAGE` that refers to the `SOURCE_IMAGE.` That’s all it does. It’s like assigning an existing image another name to refer to it. Notice how the tag is specified as optional here as well, by the `[:TAG]` :
+This creates an alias (a pointer reference) named `TARGET_IMAGE` pointing directly to `SOURCE_IMAGE`.
 
-```yaml
-[root@earth]# docker tag  myapp:final myapp:original
+```console
 [root@earth]# docker image ls
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-borosan/myapp       final               fc32da11d651        28 minutes ago      233MB
-myapp               final               fc32da11d651        28 minutes ago      233MB
-myapp               original            fc32da11d651        28 minutes ago      233MB
-redis               latest              50541622f4f1        4 days ago          104MB
+python              latest              45fd9a3ce5de        13 days ago         1.11GB
 ubuntu              latest              adafef2e596e        2 weeks ago         73.9MB
 nginx               latest              9beeba249f3e        2 months ago        127MB
-hello-world         latest              bf756fb1ae65        6 months ago        13.3kB
+
+[root@earth]# docker tag python:latest python:original
+[root@earth]# docker image ls
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+python              original            45fd9a3ce5de        13 days ago         1.11GB
+ubuntu              latest              adafef2e596e        2 weeks ago         73.9MB
+nginx               latest              9beeba249f3e        2 months ago        127MB
 ```
 
-> #### What happens when you don’t specify a tag? <a id="what-happens-when-you-don-t-specify-a-tag"></a>
->
->Whenever an image is tagged without an explicit tag, it’s given the `latest` tag by default. It’s an unfortunate naming choice that causes a lot of confusion. But I like to think of it as the **default tag** that’s given to images when you don’t specify one.
+If no tag is specified during tagging or pulling, Docker automatically defaults to **`:latest`**.
 
-### Commiting changes to an image
+---
 
-When working with Docker images and containers, one of the basic features is committing changes to a Docker image. When you commit to changes, you essentially create a new image with an additional layer that modifies the base image layer.
+### Committing Container Changes to an Image
+
+When working with Docker containers, a fundamental feature is the ability to commit container modifications into a new Docker image. When you commit changes, you create a new image layer containing the modifications made on top of the base layer.
 
 ```yaml
 docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
 ```
 
-For example let run a container based on `atohme/nginx-alpine` image :
+For example, let's run a container based on the `nginx` image:
 
-```yaml
-[root@earth]# docker run -d -p 8080:80 --name nginx1 atohme/nginx-alpine
-bc741086bb8bd8375ff03f14c699927e9659560ab6e653fe614f68843c6e4859
+```console
+[root@earth]# docker run -d -p 8080:80 --name nginx1 nginx
+63c8886ceb5cce637348a75fd3deaeee36d8deb67bd327d58657f8133f557689
 ```
 
-Now lets attach to it and modify `index.html`:
+Next, let's attach to the running container shell and modify `index.html`:
 
-```yaml
-[root@earth]# docker exec -i -t nginx1 /bin/sh
-/ # cd /usr/share/nginx/html/
-/usr/share/nginx/html # ls
+```console
+[root@earth]# docker exec -it nginx1 bash
+root@5b0dbe546af1:/# cd /usr/share/nginx/html/
+root@5b0dbe546af1:/usr/share/nginx/html# ls
 50x.html    index.html
-/usr/share/nginx/html # echo "<h1>MY-NGINX</h1>" > index.html
-/usr/share/nginx/html # exit
-
+root@5b0dbe546af1:/usr/share/nginx/html# echo "<h1>NGINX Antoine Tohme</h1>" > index.html
+root@5b0dbe546af1:/usr/share/nginx/html# exit
 ```
 
-Lets creating a new image from this running container using commit command:
+Now create a new image from this running container using **`docker commit`**:
 
-```yaml
-[root@earth]# docker commit nginx1 atohme/nginx-alpine:3.0
+```console
+[root@earth]# docker commit nginx1 tohmea/nginx:1.0
 sha256:39bf0253324e0e814660de517556ba5287f840a98fabf2a46db3420b55416c8d
 ```
 
-and see the result:
+> **Note:** Here `tohmea` is used because it represents a valid **Docker Hub** username.
 
-```yaml
+Verify the new image:
+
+```console
 [root@earth]# docker image ls
-REPOSITORY            TAG       IMAGE ID       CREATED         SIZE
-atohme/nginx-alpine   3.0       39bf0253324e   7 seconds ago   54MB
+REPOSITORY          TAG         IMAGE ID        CREATED         SIZE
+tohmea/nginx        1.0         39bf0253324e    7 seconds ago   54MB
 ```
 
-### Storing images in Docker Registry
+---
 
-A docker registery is a stateless, highly scalable application that stores and lets you distribute Docker images. Registries could be local \(private\) or cloud-base \(private or public\).
+### Publishing Images to a Docker Registry
 
-Examples of Docker Registries:
+A **Docker Registry** is a stateless, highly scalable service that stores and distributes Docker images. Registries can be hosted locally (private) or in the cloud (public or private).
 
-1. Docker Registry (local open-source registry)
-2. Docker Trusted Registry\(DTR\) \[Available in Docker Enterprise Edition\]
-3. Docker Hub \[Default Registry\]
+Examples of Docker Registries: **Docker Hub** (Default Registry).
 
-The first thing to remember is any time you are going to use a registry you need to first log in to that registry:
+Before pushing to a registry, you must authenticate using `docker login`:
 
->You need to create an account in Docker Hub first.
+> You must first create an account on Docker Hub.
 
 ```yaml
-[root@earth]# docker login
-Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
-Username: borosan
+[root@earth]# docker login -u tohmea
+
+i Info → A Personal Access Token (PAT) can be used instead.
+         To create a PAT, visit https://app.docker.com/settings
+         
 Password: 
-WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+
+WARNING! Your credentials are stored unencrypted in '/root/.docker/config.json'.
 Configure a credential helper to remove this warning. See
-https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+https://docs.docker.com/go/credential-store/
 
 Login Succeeded
 ```
 
-If we had a docker local registry then it would be `docker login localhost:5000` .
-
-and when you finish your job , logout:
-
-```yaml
-[root@earth]# docker logout
-Removing login credentials for https://index.docker.io/v1/
-[root@earth]#
-```
-
-### Pushing an image to the Default Registery
-
-Use docker push to Push an image or a repository to a registry
+Use `docker push` to upload an image or repository to the registry:
 
 ```yaml
 docker push [OPTIONS] NAME[:TAG]
 ```
 
+Example:
+
 ```yaml
-[root@earth]# docker image ls
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-borosan/myapp       final               fc32da11d651        2 hours ago         233MB
-myapp               final               fc32da11d651        2 hours ago         233MB
-myapp               original            fc32da11d651        2 hours ago         233MB
-redis               latest              50541622f4f1        4 days ago          104MB
-ubuntu              latest              adafef2e596e        2 weeks ago         73.9MB
-nginx               latest              9beeba249f3e        2 months ago        127MB
-hello-world         latest              bf756fb1ae65        6 months ago        13.3kB
+# Publish image to Docker Hub
+[root@earth]# docker push tohmea/nginx:1.0
+The push refers to repository [docker.io/tohmea/nginx]
+7a5cd363b2aa: Preparing 
+45c2d10807fb: Preparing 
+129b375526fc: Preparing 
+a0e5983a25a5: Preparing 
+2988603ca264: Preparing 
+39bc11fab520: Waiting 
+dab69e9f41e9: Waiting 
+eb5f13bce993: Waiting 
+1.0: digest: sha256:a6ebce1476484145a4d280d915ce18c0e0b5d6d60fbf1fd324bdc5d5f75b278e size: 1985
+```
 
-[root@earth]# docker login
-Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
-Username: itmt
-Password: 
-WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
-Configure a credential helper to remove this warning. See
-https://docs.docker.com/engine/reference/commandline/login/#credentials-store
-Login Succeeded
+![Docker Hub Screenshot](../images/hub.png)
 
-[root@earth]# docker push borosan/myapp:final 
-The push refers to repository [docker.io/borosan/myapp]
-3f8b89a55ad4: Pushed 
-544a70a875fc: Pushed 
-cf0f3facc4a3: Pushed 
-132bcd1e0eb5: Pushed 
-d22cfd6a8b16: Pushed 
-final: digest: sha256:c8fcece97935d8babb195f4ab3c9be38a091e259c5e750b84151a48351192fa0 size: 1364
+When finished, log out:
 
+```yaml
 [root@earth]# docker logout
-```
-### Saving and exporting images
-
-Pushing to Docker Hub is great, but it does have some disadvantages:
-
-1. Bandwidth - many ISPs have much lower upload bandwidth than download bandwidth.
-2. Unless you’re paying extra for the private repositories, pushing equals publishing.
-3. When working on some clusters, each time you launch a job that uses a Docker container it pulls the container from Docker Hub, and if you are running many jobs, this can be really slow.
-
->Docker supports two different types of methods for saving container images to a single tarball:
->
->* **`docker save`** - Saves a non-running container _image_ to a file. It exports the entire image including its history and metadata, making it suitable for transferring Docker images between machines or environments.
->* **`docker export`** - Saves a container’s running or paused _instance_ to a file. It exports only the current state of a container’s filesystem, without the history or metadata of the image it was created from, making it suitable for backup purposes or for creating a lean version of an image without its build history.
-
-To **save** a Docker image locally as a `tar archive` after you have pulled, committed or built it you use the **`docker save`** command. For example, lets save a local copy of the `myapp` docker image we made:
-
-```yaml
-[root@earth]# docker save myapp:original > myapp-original.tar
-
-[root@earth]# ls
-Dockerfile  myapp-original.tar
+Removing login credentials for https://index.docker.io/v1/
 ```
 
-To **load** that Docker image from the archived tar file in the future, we can use the **`docker load`** command:
-
-```yaml
-[root@earth]# docker load  --input myapp-original.tar 
-Loaded image: myapp:original
-```
-
-To **export** the Docker container locally as a `tar archive`, and then you can easily load that to an image when needed.
-
-```yaml
-[root@earth]# docker ps -a
-CONTAINER ID   IMAGE          COMMAND           CREATED        STATUS                    PORTS     NAMES
-9afe9f7df5c7   31497739e023   "python app.py"   18 hours ago   Exited (0) 18 hours ago             festive_allen
-
-[root@earth]# docker export -o atohme-my-flask.tar festive_allen
-```
-
-To **import** that Docker container from the archived tar file in the future, we can use the **`docker import`** command:
-
-```yaml
-[root@earth]# docker import /mnt/hgfs/Partage/atohme-my-flask.tar atohme/my-flask:1.0
-sha256:9fbc80b1f4bfcf9486a1a812dfe84fc8db58999eced2faaa5bf1ef1f44219177
-
-[root@earth]# docker image ls
-REPOSITORY            TAG       IMAGE ID       CREATED        SIZE
-atohme/my-flask       1.0       9fbc80b1f4bf   1 second ago   132MB
-
-[root@earth]# docker run -d -p 6000:5000 atohme/my-flask:1.0 python app.py
-b70909a1f4dc113a4d0335ee62209c51643f03a4f137d1c228d74c5f08a89015
-```
 ---
 
-References: 
+### Saving and Restoring Images
 
-https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes
+To **save** a Docker image locally as a `.tar` archive file after downloading, committing, or building it, use the **`docker save`** command. For example, let's create a local tar archive of `tohmea/nginx`:
 
-https://docs.docker.com/storage/storagedriver/overlayfs-driver/
+```yaml
+# Save image to a .tar file
+[root@earth]# docker save tohmea/nginx > tohmea-nginx.tar
+[root@earth]# ls
+tohmea-nginx.tar
+```
+
+To **restore** this Docker image from the archived tarball later, use the **`docker load`** command:
+
+```yaml
+# Remove local image to test restoration
+[root@earth]# docker rmi tohmea/nginx:1.0
+[root@earth]# docker image ls
+
+# Restore image from .tar archive file
+[root@earth]# docker load --input tohmea-nginx.tar  
+Loaded image: tohmea/nginx:1.0
+[root@earth]# docker image ls
+REPOSITORY        TAG        IMAGE ID        CREATED         SIZE
+tohmea/nginx      1.0        e3c264db09c0    10 minutes ago  192MB
+...
+```
+
+---
+
+### References
+
+* https://docs.docker.com/storage/storagedriver/overlayfs-driver/
+* https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes
+
+
