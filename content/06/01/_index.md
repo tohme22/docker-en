@@ -111,10 +111,10 @@ $ docker network ls
 
 #### IPVlan (Layer 2)
 ```yaml
-$ docker network create -d ipvlan --subnet 192.168.181.0/24 --gateway 192.168.181.2 -o parent=ens160 ipvlan1
+$ docker network create -d ipvlan --subnet 192.168.65.0/24 --gateway 192.168.65.2 -o parent=ens160 ipvlan1
 $ docker network ls
-$ docker run -it --rm --name demo1 --network ipvlan1 --ip 192.168.181.200 busybox
-/ # ip ad --> Compare it with the host MAC adress (It is similar)
+$ docker run -it --rm --name demo1 --network ipvlan1 --ip 192.168.65.200 busybox
+/ # ip ad --> Compare it with the host MAC adress _(It is similar)_
 / # ping www.google.com
 / # exit
 $ docker network rm ipvlan1
