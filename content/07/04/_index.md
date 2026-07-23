@@ -1,12 +1,10 @@
 ---
-title: "Demo"
+title: "Demo-Apache-PHP-MariaDB"
 description: "$ docker"
 draft: false
 weight: 4
 ---
 
-
-# Demo 
 
 ### 1. Architecture
 
