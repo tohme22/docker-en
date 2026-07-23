@@ -91,18 +91,17 @@ Error response from daemon: host is a pre-defined network and cannot be removed
 #### MACVlan
 ```yaml
 $ nmcli --> To get the ip adress of the host network interface (ex: ens160)
-$ docker network create -d macvlan --subnet 192.168.72.0/24 --gateway 192.168.72.2 -o parent=ens160 macvlan1
+$ docker network create -d macvlan --subnet 192.168.65.0/24 --gateway 192.168.65.2 -o parent=ens160 macvlan1
 $ docker network ls
-$ docker stop demo1 demo2 demo3
-$ docker run -it --rm --name demo1 --network macvlan1 --ip 192.168.72.200 busybox
+$ docker run -it --rm --name demo1 --network macvlan1 --ip 192.168.65.200 busybox
 / # ip ad --> Check the MAC adress
 / # ping www.google.com
 
 From another terminal:
-$ docker run -it --rm --name demo2 --network macvlan1 --ip 192.168.72.201 busybox
+$ docker run -it --rm --name demo2 --network macvlan1 --ip 192.168.65.201 busybox
 / # ip ad –> Compare with demo1 MAC adress
-/ # ping 192.168.72.200
-/ # ping 192.168.72.2
+/ # ping 192.168.65.200
+/ # ping 192.168.65.2
 / # exit
 
 $ docker stop demo1
