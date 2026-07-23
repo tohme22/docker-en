@@ -51,12 +51,12 @@ postgres=# \q
 docker run -p 8888:8888 --network mynetwork jupyter/scipy-notebook
 ```
 
-5.Open a browser and access the Jupyter server website::
+5. Open a browser and access the Jupyter server website:
 
-    **http://127.0.0.1:8888/**
+**http://127.0.0.1:8888/**
 	
 
-6. **Test the connection between the Web Server and the Database**
+6. Test the connection between the Web Server and the Database
 
    6.1 On the Jupyter website, open a **Python3 Notebook.thon3**.
    
