@@ -11,36 +11,6 @@ Individual containers, need to  communicate with each other through a network to
 
 You can define Docker Networking as a communication passage through which all the isolated containers communicate with each other in various situations to perform the required actions.
 
-##### **What do you think are the goals of Docker Networking?**
-
-![](../images/goals.png)
-
-**Flexibility** – Docker provides flexibility by enabling any number of applications on various platforms to communicate with each other.
-
-**Cross-Platform** – Docker can be easily used in cross-platform which works across various servers with the help of Docker Swarm Clusters.
-
-**Scalability** – Docker is a fully distributed network, which enables applications to grow and scale individually while ensuring performance.
-
-**Decentralized** –  Docker uses a decentralized network, which enables the capability to have the applications spread and highly available. In the event that a container or a host is suddenly missing from your pool of resource, you can either bring up an additional resource or pass over to services that are still available.
-
-**User – Friendly** – Docker makes it easy to automate the deployment of services, making them easy to use in day-to-day life.
-
-**Support** – Docker offers out-of-the-box supports. So, the ability to use Docker Enterprise Edition and get all of the functionality very easy and straightforward, makes Docker platform to be very easy to be used.
-
-### **Docker networking architecture**
-
- The Docker networking architecture is built on a set of interfaces called the **Container Networking Model (CNM)**. The philosophy of CNM is to provide application portability across different infrastructures. This model strikes a balance to achieve application portability and also takes advantage of special features and capabilities of the infrastructure.
-
-![](../images/network-cnm.png)
-
-#### CNM Constructs
-
-* **Sandbox:** Created when users request to create an endpoint on a network. A Sandbox can have multiple endpoints attached to different networks representing container’s network configuration such as IP-address, MAC-address, routes, DNS.
-*  **Endpoint:** Provides the connectivity for services exposed by a container in a network with other services provided by other containers in the network. An endpoint represents a service and not necessarily a particular container, Endpoint has a global scope within a cluster as well.
-*  **Network:**  Provides connectivity between a group of endpoints that belong to the same network and isolate from the rest. So, whenever a network is created or updated, the corresponding Driver will be notified of the event.
-* **IPAM Driver:** Provides the entry-point into Libnetwork that exposes simple APIs for Docker Engine to allocate and manage networks. Since Libnetwork supports multiple inbuilt and remote drivers, Network Controller enables users to attach a particular driver to a given network.
-* **Network Driver**: Owns the network and is responsible for managing the network by having multiple drivers participating to satisfy various use-cases and deployment scenarios.
-
 ### **Docker Network Drivers**
 
 There are mainly **6 network drivers: Bridge, Host, None, Overlay, IPvlan and Macvlan:**
