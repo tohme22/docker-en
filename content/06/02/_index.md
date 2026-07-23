@@ -18,7 +18,7 @@ d26075b0d8d3   mynetwork   bridge    local
 2.	Create the **Postgres (Database)** container:
 
 ```yaml
-$ docker run -d --name postgres -v database:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword --network mynetwork postgres
+$ docker run -d --name postgres --network mynetwork -p 5432:5432 -v database:/var/lib/postgresql/data -e POSTGRES_PASSWORD=mysecretpassword  postgres:17
 ```
 
 3. Use the `exec` command to create a table with data in the `postgres` database:
