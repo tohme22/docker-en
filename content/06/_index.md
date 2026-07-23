@@ -44,7 +44,7 @@ ba9b9833188b        none        null        local
 
 ---
 
-## 1. Default Bridge Network
+## 1.1 Bridge - Default Bridge Network
 
 The **Bridge** network is a *pre-defined private internal network* created by Docker on the host machine. Containers attached to this network receive an internal IP address and can communicate with each other via these IP addresses. Bridge networks are generally used when your applications run in standalone containers that need to intercommunicate.
 
@@ -162,7 +162,7 @@ $ docker ps -a
 
 ---
 
-## Custom User-Defined Bridge Networks
+## 1.2 Bridge - Custom User-Defined Bridge Networks
 
 ### Example: Creating a User-Defined Bridge Network
 
