@@ -8,14 +8,14 @@ weight: 4
 
 # Demo 
 
-## 1. Architecture
+### 1. Architecture
 
 - **Site 3 LAN:** `10.10.60.0/24`
 - **Docker Server:** `10.10.60.200`
   - **Port 80** → Apache + PHP
   - **Port 8080** → phpMyAdmin
 
-### Networks Overview
+#### Networks Overview
 
 - **`site3_frontend`**
   - Apache + PHP
@@ -26,7 +26,7 @@ weight: 4
   - phpMyAdmin
   - MariaDB
 
-## 2. Topology Diagram
+### 2. Topology Diagram
 
 ```text
                Site 3 LAN: 10.10.60.0/24
@@ -59,7 +59,7 @@ Browser --> Apache + PHP             |
 
 ---
 
-## 3. Create Project Directory
+### 3. Create Project Directory
 
 ```bash
 sudo mkdir /docker-site3
@@ -68,7 +68,7 @@ cd /docker-site3
 
 ---
 
-## 4. Create Dockerfile
+### 4. Create Dockerfile
 
 ```bash
 sudo vim dockerfile
@@ -85,7 +85,7 @@ WORKDIR /var/www/html
 
 ---
 
-## 5. Build Apache/PHP Image
+### 5. Build Apache/PHP Image
 
 ```bash
 sudo docker build -t site3-apache-php:8.4 .
@@ -94,7 +94,7 @@ sudo docker image ls
 
 ---
 
-## 6. Create Docker Networks
+### 6. Create Docker Networks
 
 ```bash
 sudo docker network create site3_frontend
@@ -104,7 +104,7 @@ sudo docker network ls
 
 ---
 
-## 7. Create Docker Volumes
+### 7. Create Docker Volumes
 
 ```bash
 sudo docker volume create site3_apache_web_data
@@ -115,7 +115,7 @@ sudo docker volume ls
 
 ---
 
-## 8. Create MariaDB Container
+### 8. Create MariaDB Container
 
 ```bash
 sudo vim .env
@@ -148,7 +148,7 @@ sudo docker ps
 
 ---
 
-## 9. Create Apache/PHP Container
+### 9. Create Apache/PHP Container
 
 ```bash
 sudo docker run -d \
@@ -171,7 +171,7 @@ sudo docker inspect site3-apache-php
 
 ---
 
-## 10. Create phpMyAdmin Container
+### 10. Create phpMyAdmin Container
 
 ```bash
 sudo docker run -d \
@@ -194,7 +194,7 @@ sudo docker network connect site3_backend site3-phpmyadmin
 
 ---
 
-## 11. Verify Docker Infrastructure
+### 11. Verify Docker Infrastructure
 
 ```bash
 sudo docker network inspect site3_frontend
@@ -204,7 +204,7 @@ sudo docker volume ls
 
 ---
 
-## 12. Verify PHP Container Functionality
+### 12. Verify PHP Container Functionality
 
 ```bash
 sudo docker exec site3-apache-php php --version
@@ -213,7 +213,7 @@ sudo docker exec site3-apache-php php -m | grep -E "mysqli|PDO|pdo_mysql"
 
 ---
 
-## 13. Add Persistent PHP Page in Apache
+### 13. Add Persistent PHP Page in Apache
 
 ```bash
 sudo docker exec -it site3-apache-php bash
@@ -241,7 +241,7 @@ exit
 
 ---
 
-## 14. Configure AlmaLinux Firewall
+### 14. Configure AlmaLinux Firewall
 
 ```bash
 sudo firewall-cmd --permanent --add-port=80/tcp
@@ -251,13 +251,13 @@ sudo firewall-cmd --reload
 
 ---
 
-## 15. Test Apache Locally in Web Browser
+### 15. Test Apache Locally in Web Browser
 
 Navigate to: `http://10.10.60.200`
 
 ---
 
-## 16. Test phpMyAdmin Locally in Web Browser
+### 16. Test phpMyAdmin Locally in Web Browser
 
 Navigate to: `http://10.10.60.200:8080`
 
@@ -268,7 +268,7 @@ Navigate to: `http://10.10.60.200:8080`
 
 ---
 
-## 17. Test MariaDB
+### 17. Test MariaDB
 
 ```bash
 sudo docker exec -it site3-mariadb mariadb -u site3user -p site3db
@@ -291,7 +291,7 @@ EXIT;
 
 ---
 
-## 18. Create PHP Page Reading from MariaDB
+### 18. Create PHP Page Reading from MariaDB
 
 ```bash
 sudo docker exec -it site3-apache-php bash
@@ -326,12 +326,12 @@ exit
 
 ---
 
-## 19. Local & Remote Verification
+### 19. Local & Remote Verification
 
-### Local Database PHP Test
+#### Local Database PHP Test
 Navigate to: `http://10.10.60.200/database-test.php`
 
-### View Tables via phpMyAdmin
+#### View Tables via phpMyAdmin
 1. Navigate to: `http://10.10.60.200:8080`
 2. Select database `site3db` → `verification` table → **Browse**
 
@@ -342,7 +342,7 @@ Expected output:
 
 ---
 
-## 20. Verify Persistent Volumes
+### 20. Verify Persistent Volumes
 
 ```bash
 sudo docker volume ls
@@ -354,6 +354,6 @@ sudo docker volume inspect site3_phpmyadmin_sessions
 
 ---
 
-## 21. Test from Another VM
+### 21. Test from Another VM
 
 Navigate to: `http://10.10.60.200/database-test.php`
